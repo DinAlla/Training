@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Jasmine Spec Runner v2.8.0</title>
+
+  <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.8.0/jasmine_favicon.png">
+  <link rel="stylesheet" href="lib/jasmine-2.8.0/jasmine.css">
+
+  <script src="lib/jasmine-2.8.0/jasmine.js"></script>
+  <script src="lib/jasmine-2.8.0/jasmine-html.js"></script>
+  <script src="lib/jasmine-2.8.0/boot.js"></script>
+
+  <!-- include source files here... -->
+  <script src="src/Player.js"></script>
+  <script src="src/Song.js"></script>
+  <script src="src/Rule.js"></script>
+  <script src="src/Validator.js"></script>
+  <script type="text/javascript">
+    describe('smth',function(){
+        let credentials = {
+          name: 'Annn@mail.ru',
+          password: '1234567'
+        }
+        let validatedObject = {
+          name: new Rule(credentials.name).isRequired().isEmail(),
+          password: new Rule(credentials.password).isRequired()
+        } 
+        let credentials1 = {
+          name: 'Annn',
+          password: '1234567jnijbnijbiubiu'
+        }
+        let validatedObject1 = {
+          name: new Rule(credentials1.name).isRequired().isEmail(),
+          password: new Rule(credentials1.password).isRequired().isInt().maxLength(5)
+        } 
+        var p;
+        new Validator().Validate(validatedObject)
+      .then(error => p=error)
+        .catch(error => p=error);
+        it('should return empty massive', function(){
+          expect(p).toEqual(undefined);
+        })
+        new Validator().Validate(validatedObject1)
+          .then(error => p=error)
+            .catch(error => p=error)
+        it('should return massive with errors',function(){
+          expect(p).toEqual({name:[], password:['Это не целое число, наверное оно должно быть целое', 'Слишком маленькое значение']}});
+        })
+    });
+    
+  </script>
+  <!-- include spec files here... -->
+  <script src="spec/SpecHelper.js"></script>
+  <script src="spec/PlayerSpec.js"></script>
+
+</head>
+
+<body>
+</body>
+</html>
