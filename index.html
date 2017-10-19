@@ -4,99 +4,87 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <script >
-  	class Rule{
-    constructor(value) {
-        this.value = value;
-        this.err = [];
+    class Rule {
+    isRequired() {
+        //console.log('вошли в isRequired');
+        this.require = function(value){
+            //console.log('вошли в require');
+            if(!value)  return "Ничего не введено"; 
+            else return "";
+        }
+        return this;
     }
-	isRequired(){
-		if (this.value.length == 0){this.err.push('Не существует элемента')}
-		return this;
-	}
-	maxLength(n){
-		if (this.value.length >= n){this.err.push('Превышение диапазона значений')}
-		return this;
-		
-	}
-	minLength(n){
-		if(this.value.length <= n){this.err.push('Слишком маленькое значение')}
-		return this;
-	}
-	max(n){
-		if (this.value.length <= n){this.err.push('Слишком большое значение')}
-		return this;
-	} 
-	min(n){
-		if (this.value.length >= n){this.err.push('Слишком маленькое значение')} 
-		return this;
-	} 
-	isEmail(){
-		var k = this.value.indexOf('@');
-		if (k != -1){
-			var p = this.value.substring(k);
-			var t = this.value.substring(0, k);
-			if((p.indexOf('.') == -1) || (t.length == 0 )){
-				this.err.push('Неправильно введен емейл');
-			}
-		}
-		return this;
-	} 
-	isInt(){
-		var t = +this.value;
-		if(!t.isInteger){
-			this.err.push('Это не целое число, наверное оно должно быть целое');
-		}
-		return this;
-	}
+
+    maxLength(n){
+        //console.log('вошли в maxLength '+n);
+        this.maxlength = function(value){
+            //console.log('вошли в maxlength n='+n +''+value.length);
+            if(value.length > n) return "Слишком большое значение";
+            else return "";
+        }
+        return this;
+    }
+
+    minLength(n){
+        this.minlength = function(value){
+            if (value.length < n) return "Слишком маленькое значение";
+            else return "";
+        }
+        return this;
+    }
+    validateRule(value) {
+        //console.log('вошли в validateRule');
+        var err=[];
+        for(var key in this){
+                err.push(this[key](value));
+            }
+        return err;
+        
+    }
 }
 
+
 class Validator {
-	Validate(obj){
-		var error ={
-            	name:[],
-            	password:[]
-            },
-         	n = 1;
-		return new Promise(function(resolve, reject){         
-            for(var key in obj){
-			     if(obj[key].err.length == 0)  {n+=1; } 
-                 else {
-                    if(n == 1){
-                    	error.name = obj[key].err
-                	}
-                    else {error.password = obj[key].err}
-                    n+=1;
-            	}
+    Validate(data, rules){
+        //console.log('вошли в Validate');
+        let err = [];
+        for(var key in rules){
+            console.log('цикл ' + key);
+            err.push(rules[key].validateRule(data[key]));
+            //console.log(err);
             }
-            if(error.name.length == 0 && error.password.length == 0){resolve();}
-            else{reject(error);}
-		})
-	}
+        return new Promise(function(resolve, reject){
+            var n=[], i=0;
+            for (var key in err){
+                    //console.log(err[key]+' err[key]');
+                if (err[key] == ''){
+                    i++; 
+                    n.push(i); 
+                    //console.log(n +'ahaha');}
+                    i++;
+                }
+            }
+            //console.log(n);
+            if(n.length == 0) resolve();
+            else reject(err);
+        });
+    }
 }
-let credentials = {
-    name: 'Annn@mail.ru',
-    password: '1234567'
+let person = {
+    name: "",
+    age: 23,
+    phoneNumber: '+3123131231'
 }
-let credentials1 = {
-    name: 'Annn',
-    password: '1234567jnijbnijbiubiu'
+
+let rules = {
+    name: new Rule().isRequired().maxLength(1),
+    age: new Rule().isRequired(),
+    phoneNumber: new Rule().isRequired().minLength(566)
 }
-let validatedObject = {
-    name: new Rule(credentials.name).isRequired().isEmail(),
-    password: new Rule(credentials.password).isRequired()
-} 
-let validatedObject1 = {
-    name: new Rule(credentials1.name).isRequired().isEmail(),
-    password: new Rule(credentials1.password).isRequired().isInt().maxLength(5)
-}   
-var p = new Validator().Validate(validatedObject)
-.then(error => error)
-	.catch(error => error)
-console.log(p);
-var k = new Validator().Validate(validatedObject1)
-.then(error => error)
-	.catch(error => error)
-console.log(k);
+
+var promise = new Validator().Validate(person, rules)
+.then(result => console.log('all good'))
+.catch(result => console.log(result));
   </script>
 </head>
 <body>

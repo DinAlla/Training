@@ -1,23 +1,20 @@
 class Validator {
 	Validate(obj){
-		var error ={
-            	name:[],
-            	password:[]
-            },
-         	n = 1;
+		var error ={},
+			hasError = false;
 		return new Promise(function(resolve, reject){         
             for(var key in obj){
-			     if(obj[key].err.length == 0)  {n+=1; } 
-                 else {
-                    if(n == 1){
-                    	error.name = obj[key].err
-                	}
-                    else {error.password = obj[key].err}
-                    n+=1;
+			    if(obj[key].err.length != 0){
+            		error[key] = obj[key].err;
+            		hasError	=	true;
             	}
             }
-            if(error.name.length == 0 && error.password.length == 0){resolve();}
-            else{reject(error);}
+            if(!hasError) {
+            	resolve();
+            }
+            else {
+            	reject(error);
+            }
 		})
 	}
 }

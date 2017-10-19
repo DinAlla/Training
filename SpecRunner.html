@@ -34,13 +34,16 @@
           name: new Rule(credentials1.name).isRequired().isEmail(),
           password: new Rule(credentials1.password).isRequired().isInt().maxLength(5)
         } 
+
         var p;
         new Validator().Validate(validatedObject)
       .then(error => p=error)
         .catch(error => p=error);
+
         it('should return empty massive', function(){
           expect(p).toEqual(undefined);
         })
+        
         new Validator().Validate(validatedObject1)
           .then(error => p=error)
             .catch(error => p=error)
