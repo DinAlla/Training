@@ -1,42 +1,20 @@
 class Validator {
-	Validate(obj){
-		var error ={},
-			hasError = false;
-		return new Promise(function(resolve, reject){         
-            for(var key in obj){
-			    if(obj[key].err.length != 0){
-            		error[key] = obj[key].err;
-            		hasError	=	true;
-            	}
+    Validate(data, rules){
+        let err = [];
+        for(var key in rules){
+            err.push(rules[key].validateRule(data[key]));
+        }
+        return new Promise(function(resolve, reject){
+            var checkErrors=[], i=0;
+            for (var key in err){
+                if (err[key] == ''){
+                    i++; 
+                    checkErrors.push(i); 
+                    //i++;
+                }
             }
-            if(!hasError) {
-            	resolve();
-            }
-            else {
-            	reject(error);
-            }
-		})
-	}
+            if(checkErrors.length == 0) resolve();
+            else reject(err);
+        });
+    }
 }
-/*
-describe("Jasmine", function(){
-	it("makes testing JavaScript awesome!", function(){
-		*/
-		
-		
-
-		
-/*
-		expect(
-			new Validator().Validate(validatedObject)
-			.then(result => true)
-				.catch(error => error)
-		).toBe(true);
-
-		expect(
-			new Validator().Validate(validatedObject1)
-			.then(result => true)
-				.catch(error => error)
-		).toBe(error);
-	});
-});*/
