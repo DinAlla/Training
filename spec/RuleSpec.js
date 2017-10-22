@@ -37,6 +37,8 @@ describe('Testing all',function(){
 		expect(p[1]).toBe('Неправильно введен емейл');
 	})
 	it("testing class Validator", function(){
+		var p = promise.Validate({name: "Lina"}, {name: new Rule().isRequired()});
+		expect(p).toBe(['']);
 		//don't know how to write expect with promise
 	});	
 });
