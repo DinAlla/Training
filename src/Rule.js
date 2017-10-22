@@ -28,7 +28,7 @@ class Rule {
 
     max(n){
     	this.findError.push(function(value){
-    		if(value > n) return "Значение больше, чем ожтдалось";
+    		if(value > n) return "Значение больше, чем ожидалось";
     		else return "";
     	})
     	return this;
@@ -36,7 +36,6 @@ class Rule {
 
     min(n){
     	this.findError.push(function(value){
-            console.log(value + '  ' +n)
     		if(value < n) return "Значение слишком маленькое";
     		else return "";
     	});
@@ -46,10 +45,11 @@ class Rule {
     isEmail(){
     	this.findError.push(function(value){
 	    	let hotdog = value.indexOf('@');
-			if (hotdog != 0){
+			if (hotdog != -1){
 				let underHotdog = value.substring(hotdog);
-				let unfterHotdog = value.substring(0, hotdog);
-				if((underHotdog.indexOf('.') == -1) || (unfterHotdog.length == 0 )){
+				let ufterHotdog = value.substring(0, hotdog);
+                console.log(ufterHotdog)
+				if((underHotdog.indexOf('.') == -1) || (ufterHotdog == '' )  ){
 					return "Неправильно введен емейл";
 				}else return "";
 			}else return "";
@@ -60,10 +60,11 @@ class Rule {
     isInt(){
     	this.findError.push(function(value){
     		let valueInInt = +value;
-			if(!valueInInt){
+			if((valueInInt^0) != valueInInt || typeof(value) == 'string'){
 				return ("Это не целое число, наверное оно должно быть целое");
 			}else return "";
     	});
+
         return this;	
 	}
 
