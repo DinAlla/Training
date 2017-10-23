@@ -60,7 +60,7 @@ class Rule {
     isInt(){
     	this.findError.push(function(value){
     		let valueInInt = +value;
-			if((valueInInt^0) != valueInInt || typeof(value) == 'string'){
+			if((valueInInt^0) != valueInInt /*|| typeof(value) == 'string'*/){
 				return ("Это не целое число, наверное оно должно быть целое");
 			}else return "";
     	});
