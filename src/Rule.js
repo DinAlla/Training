@@ -70,10 +70,8 @@ class Rule {
     validateRule(value) {
         var err=[];
         for(var key in this.findError){
-                err.push(this.findError[key](value).errorMessage);
-                console.log(this.findError[key](value).isValid);
-                console.log(this.findError[key](value).errorMessage);
-            }
+            if (!this.findError[key](value).isValid) err.push(this.findError[key](value).errorMessage);
+        }
         return err;  
     }
 }	
