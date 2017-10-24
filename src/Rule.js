@@ -4,40 +4,40 @@ class Rule {
     }
     isRequired() {
         this.findError.push(function(value){
-            if(value == undefined)  return "Ничего не введено"; 
-            else return "";
+            if(value == undefined)  return {isValid: false, errorMessage: "Ничего не введено"}
+            else return {isValid: true, errorMessage: ""};
         });
         return this;
     }
-
+    // return {boolean errmes}
     maxLength(maxNumber){
         this.findError.push(function(value){
-            if(value.length > maxNumber) return "Слишком большое значение";
-            else return "";
+            if(value.length > maxNumber) return {isValid:false, errorMessage: "Слишком большое значение"}
+            else return {isValid:true, errorMessage: ""};
         });
         return this;
     }
 
     minLength(minNumber){
         this.findError.push( function(value){
-            if (value.length < minNumber) return "Слишком маленькое значение";
-            else return "";
+            if (value.length < minNumber) return {isValid: false, errorMessage: "Слишком маленькое значение"}
+            else return {isValid:true, errorMessage: ""};
         })
         return this;
     }
 
     max(n){
     	this.findError.push(function(value){
-    		if(value > n) return "Значение больше, чем ожидалось";
-    		else return "";
+    		if(value > n) return {isValid:false, errorMessage:"Значение больше, чем ожидалось"}
+    		else return {isValid:true, errorMessage: ""};
     	})
     	return this;
     }
 
     min(n){
     	this.findError.push(function(value){
-    		if(value < n) return "Значение слишком маленькое";
-    		else return "";
+    		if(value < n) return {isValid: false, errorMessage: "Значение слишком маленькое"}
+    		else return {isValid: true, errorMessage: ""}
     	});
     	return this;
     }
@@ -48,10 +48,9 @@ class Rule {
 			if (hotdog != -1){
 				let underHotdog = value.substring(hotdog);
 				let ufterHotdog = value.substring(0, hotdog);
-                console.log(ufterHotdog)
 				if((underHotdog.indexOf('.') == -1) || (ufterHotdog == '' )  ){
-					return "Неправильно введен емейл";
-				}else return "";
+					return {isValid: false, errorMessage: "Неправильно введен емейл"}
+				}else return {isValid:true, errorMessage: ""};
 			}else return "";
     	});
 		return this; 
@@ -61,8 +60,8 @@ class Rule {
     	this.findError.push(function(value){
     		let valueInInt = +value;
 			if((valueInInt^0) != valueInInt /*|| typeof(value) == 'string'*/){
-				return ("Это не целое число, наверное оно должно быть целое");
-			}else return "";
+				return {isValid: false, errorMessage: "Это не целое число, наверное оно должно быть целое"}
+			}else return {isValid: true, errorMessage: ""}
     	});
 
         return this;	
@@ -71,7 +70,9 @@ class Rule {
     validateRule(value) {
         var err=[];
         for(var key in this.findError){
-                err.push(this.findError[key](value));
+                err.push(this.findError[key](value).errorMessage);
+                console.log(this.findError[key](value).isValid);
+                console.log(this.findError[key](value).errorMessage);
             }
         return err;  
     }
