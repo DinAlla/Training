@@ -66,10 +66,12 @@ class Rule {
 	}
 
     validateRule(value) {
-        var err=[];
-        for(var key in this.findError){
-            if (!this.findError[key](value).isValid) err.push(this.findError[key](value).errorMessage);
-        }
-        return err;  
+        // var err=[];
+        // for(var key in this.findError){
+        //     if (!this.findError[key](value).isValid) err.push(this.findError[key](value));
+        // }
+        //return err;
+        console.log(this.findError[0](value));
+        return this.findError[0](value);  
     }
 }	

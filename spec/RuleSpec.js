@@ -7,8 +7,8 @@ describe('Testing class Rule',function(){
 			dataNameRule = {
 				name: new Rule().isRequired()
 			};
-			let result = dataNameRule.name.validateRule(dataName.name)[0];
-			expect(result).toBe('Ничего не введено');
+			let result = dataNameRule.name.validateRule(dataName.name);
+			expect(result.isValid).toBe(false);
 		})
 		it("Testing isRequired - all good(name is Robin)",function(){
 			let dataName = {
@@ -17,8 +17,8 @@ describe('Testing class Rule',function(){
 			dataNameRule = {
 				name: new Rule().isRequired()
 			};
-			let result = dataNameRule.name.validateRule(dataName.name)[0];
-			expect(result).toBe();
+			let result = dataNameRule.name.validateRule(dataName.name);
+			expect(result.isValid).toBe(true);
 		})
 		it("Testing isRequired - input number 123 <br/> (why not? maybe my mother tell to me 1st?)",function(){
 			let dataName = {
@@ -27,8 +27,8 @@ describe('Testing class Rule',function(){
 			dataNameRule = {
 				name: new Rule().isRequired()
 			};
-			let result = dataNameRule.name.validateRule(dataName.name)[0];
-			expect(result).toBe();
+			let result = dataNameRule.name.validateRule(dataName.name);
+			expect(result.isValid).toBe(true);
 		})
 	})
 	describe("Testing maxLength and minLength", function(){
@@ -39,8 +39,8 @@ describe('Testing class Rule',function(){
 			dataNameRule = {
 				name: new Rule().maxLength(5)
 			}
-			let result = dataNameRule.name.validateRule(dataName.name)[0];
-			expect(result).toBe('Слишком большое значение');
+			let result = dataNameRule.name.validateRule(dataName.name);
+			expect(result.isValid).toBe(false);
 		})
 		it("Testing minLength(3) with standart name Robin, should be all good",function(){
 			let dataName = {
@@ -49,8 +49,8 @@ describe('Testing class Rule',function(){
 			dataNameRule = {
 				name: new Rule().minLength(3)
 			};
-			let result = dataNameRule.name.validateRule(dataName.name)[0];
-			expect(result).toBe();
+			let result = dataNameRule.name.validateRule(dataName.name);
+			expect(result.isValid).toBe(true);
 		})
 		it("Testing maxLength(10) with standart name Robin, should be all good",function(){
 			let dataName = {
@@ -59,8 +59,8 @@ describe('Testing class Rule',function(){
 			dataNameRule = {
 				name: new Rule().maxLength(10)
 			};
-			let result = dataNameRule.name.validateRule(dataName.name)[0];
-			expect(result).toBe();
+			let result = dataNameRule.name.validateRule(dataName.name);
+			expect(result.isValid).toBe(true);
 		})
 		it("Testing minLength(3) with so short name A", function(){
 			let dataName = {
@@ -69,8 +69,8 @@ describe('Testing class Rule',function(){
 			dataNameRule = {
 				name: new Rule().minLength(3)
 			};
-			let result = dataNameRule.name.validateRule(dataName.name)[0];
-			expect(result).toBe('Слишком маленькое значение');
+			let result = dataNameRule.name.validateRule(dataName.name);
+			expect(result.isValid).toBe(false);
 		})
 	})
 	describe("Testing max and min", function(){
@@ -81,8 +81,8 @@ describe('Testing class Rule',function(){
 			dataAgeRule = {
 				age: new Rule().max(100)
 			};
-			let result = dataAgeRule.age.validateRule(dataAge.age)[0];
-			expect(result).toBe('Значение больше, чем ожидалось');
+			let result = dataAgeRule.age.validateRule(dataAge.age);
+			expect(result.isValid).toBe(false);
 		})
 		it("Testing mina(18) with uncorrect data - 14 years old",function(){
 			let dataAge = {
@@ -91,8 +91,8 @@ describe('Testing class Rule',function(){
 			dataAgeRule = {
 				age: new Rule().min(18)
 			};
-			let result = dataAgeRule.age.validateRule(dataAge.age)[0];
-			expect(result).toBe('Значение слишком маленькое');
+			let result = dataAgeRule.age.validateRule(dataAge.age);
+			expect(result.isValid).toBe(false);
 		})
 		it("Testing max(100) with correct data", function(){
 			let dataAge = {
@@ -101,8 +101,8 @@ describe('Testing class Rule',function(){
 			dataAgeRule = {
 				age: new Rule().max(100)
 			};
-			let result = dataAgeRule.age.validateRule(dataAge.age)[0];
-			expect(result).toBe();
+			let result = dataAgeRule.age.validateRule(dataAge.age);
+			expect(result.isValid).toBe(true);
 		})
 		it("Testing min(18) with correct data", function(){
 			let dataAge = {
@@ -111,8 +111,8 @@ describe('Testing class Rule',function(){
 			dataAgeRule = {
 				age: new Rule().min(18)
 			}
-			let result = dataAgeRule.age.validateRule(dataAge.age)[0];
-			expect(result).toBe();
+			let result = dataAgeRule.age.validateRule(dataAge.age);
+			expect(result.isValid).toBe(true);
 		})
 	})
 	describe("Testing isEmail", function(){
@@ -123,8 +123,8 @@ describe('Testing class Rule',function(){
 			dataEmailRule = {
 				email: new Rule().isEmail()
 			};
-			let result = dataEmailRule.email.validateRule(dataEmail.email)[0];
-			expect(result).toBe();
+			let result = dataEmailRule.email.validateRule(dataEmail.email);
+			expect(result.isValid).toBe(true);
 		})
 		it("Testing isEmail with data without domen(mail.ru, gmail.com etc.)", function(){
 			let dataEmail = {
@@ -133,8 +133,8 @@ describe('Testing class Rule',function(){
 			dataEmailRule = {
 				email: new Rule().isEmail()
 			};
-			let result = dataEmailRule.email.validateRule(dataEmail.email)[0];
-			expect(result).toBe('Неправильно введен емейл');
+			let result = dataEmailRule.email.validateRule(dataEmail.email);
+			expect(result.isValid).toBe(false);
 		})
 		it("Testing isEmail with data without name under hotdog",function(){
 			let dataEmail = {
@@ -143,8 +143,8 @@ describe('Testing class Rule',function(){
 			dataEmailRule = {
 				email: new Rule().isEmail()
 			};
-			let result = dataEmailRule.email.validateRule(dataEmail.email)[0];
-			expect(result).toBe('Неправильно введен емейл');			
+			let result = dataEmailRule.email.validateRule(dataEmail.email);
+			expect(result.isValid).toBe(false);			
 		})
 		it("Testing isEmail with data without point in domen", function(){
 			let dataEmail = {
@@ -153,8 +153,8 @@ describe('Testing class Rule',function(){
 			dataEmailRule = {
 				email: new Rule().isEmail()
 			};
-			let result = dataEmailRule.email.validateRule(dataEmail.email)[0];
-			expect(result).toBe('Неправильно введен емейл');
+			let result = dataEmailRule.email.validateRule(dataEmail.email);
+			expect(result.isValid).toBe(false);
 		})
 	})
 	describe("Testing isInt", function(){
@@ -165,8 +165,8 @@ describe('Testing class Rule',function(){
 			dataIntRule = {
 				age: new Rule().isInt()
 			}
-			let result = dataIntRule.age.validateRule(dataInt.age)[0];
-			expect(result).toBe();
+			let result = dataIntRule.age.validateRule(dataInt.age);
+			expect(result.isValid).toBe(true);
 		})
 		it("Testing isInt with data with type Double, not Int",function(){
 			let dataInt = {
@@ -175,8 +175,8 @@ describe('Testing class Rule',function(){
 			dataIntRule = {
 				age: new Rule().isInt()
 			};
-			let result = dataIntRule.age.validateRule(dataInt.age)[0];
-			expect(result).toBe('Это не целое число, наверное оно должно быть целое');
+			let result = dataIntRule.age.validateRule(dataInt.age);
+			expect(result.isValid).toBe(false);
 		})
 		it("Testing isInt with data with type String, but Int",function(){
 			let dataInt = {
@@ -185,8 +185,8 @@ describe('Testing class Rule',function(){
 			dataIntRule = {
 				age: new Rule().isInt()
 			};
-			let result = dataIntRule.age.validateRule(dataInt.age)[0];
-			expect().toBe();
+			let result = dataIntRule.age.validateRule(dataInt.age);
+			expect(result.isValid).toBe(true);
 		})
 		it("Testing isInt with data with type String, but Double", function(){
 			let dataInt = {
@@ -195,8 +195,8 @@ describe('Testing class Rule',function(){
 			dataIntRule = {
 				age: new Rule().isInt()
 			};
-			let result = dataIntRule.age.validateRule(dataInt.age)[0];
-			expect(result).toBe('Это не целое число, наверное оно должно быть целое');
+			let result = dataIntRule.age.validateRule(dataInt.age);
+			expect(result.isValid).toBe(false);
 		})	
 	})
 });
