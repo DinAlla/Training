@@ -1,6 +1,5 @@
-class Validator {
-    Validate(data, rules){
-        let err = [];
+function Validator(){}
+Validator.prototype.Validate = function(){
         for(var key in rules){
             err.push(rules[key].validateRule(data[key]));
         }
@@ -16,5 +15,4 @@ class Validator {
             if(checkErrors.length == 0) resolve();
             else reject(err);
         });
-    }
 }
