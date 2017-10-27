@@ -1,4 +1,5 @@
 describe('Testing class Rule',function(){
+	var Rule = require('../src/Rule');
 	describe("Testing isRequired",function(){
 		it("Testing isRequired - null", function(){
 			let dataName = {

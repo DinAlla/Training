@@ -16,3 +16,4 @@ Validator.prototype.Validate = function(){
             else reject(err);
         });
 }
+module.exports = Validator;
