@@ -59,7 +59,3 @@ Rule.prototype.validateRule = function(value){
     return p;
 }
 module.exports = Rule;
-//запаблить в npm валидатор publish
-//npm.ignore папка spec
-//index.js из которого будет импортироваться всё
-//переписать на регулярные email
