@@ -54,13 +54,12 @@ Rule.prototype.isInt = function(){
     return this;    
 }
 Rule.prototype.validateRule = function(value){
-    return this.findError[0](value);
+    var p = this.findError[0](value);
+    console.log(p);
+    return p;
 }
 module.exports = Rule;
-//run через node.js 
-//удалить папку lib 
 //запаблить в npm валидатор publish
 //npm.ignore папка spec
-// +переписать на функции т.е. сделать на es5
 //index.js из которого будет импортироваться всё
 //переписать на регулярные email
