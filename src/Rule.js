@@ -1,77 +1,65 @@
-class Rule {
-    constructor(){
-        this.findError = [];
-    }
-    isRequired() {
-        this.findError.push(function(value){
-            if(value == undefined)  return "Ничего не введено"; 
-            else return "";
-        });
-        return this;
-    }
-
-    maxLength(maxNumber){
-        this.findError.push(function(value){
-            if(value.length > maxNumber) return "Слишком большое значение";
-            else return "";
-        });
-        return this;
-    }
-
-    minLength(minNumber){
-        this.findError.push( function(value){
-            if (value.length < minNumber) return "Слишком маленькое значение";
-            else return "";
-        })
-        return this;
-    }
-
-    max(n){
-    	this.findError.push(function(value){
-    		if(value > n) return "Значение больше, чем ожтдалось";
-    		else return "";
-    	})
-    	return this;
-    }
-
-    min(n){
-    	this.findError.push(function(value){
-            console.log(value + '  ' +n)
-    		if(value < n) return "Значение слишком маленькое";
-    		else return "";
-    	});
-    	return this;
-    }
-
-    isEmail(){
-    	this.findError.push(function(value){
-	    	let hotdog = value.indexOf('@');
-			if (hotdog != 0){
-				let underHotdog = value.substring(hotdog);
-				let unfterHotdog = value.substring(0, hotdog);
-				if((underHotdog.indexOf('.') == -1) || (unfterHotdog.length == 0 )){
-					return "Неправильно введен емейл";
-				}else return "";
-			}else return "";
-    	});
-		return this; 
-    }
-
-    isInt(){
-    	this.findError.push(function(value){
-    		let valueInInt = +value;
-			if(!valueInInt){
-				return ("Это не целое число, наверное оно должно быть целое");
-			}else return "";
-    	});
-        return this;	
-	}
-
-    validateRule(value) {
-        var err=[];
-        for(var key in this.findError){
-                err.push(this.findError[key](value));
-            }
-        return err;  
-    }
-}	
+function Rule(){
+    this.findError = [];
+}
+Rule.prototype.isRequired = function(){
+    this.findError.push(function(value){
+    //переписать наличие value
+    let isValid;
+    (value == undefined || typeof(value) == null) ? isValid = false : isValid = true
+    return {isValid: isValid, errorMessage: "Ничего не введено"};
+    });
+    return this;    
+}
+Rule.prototype.maxLength = function(maxNumber){
+    this.findError.push(function(value){
+        let isValid = !(value.length > maxNumber);
+        return {isValid: isValid, errorMessage: "Слишком большое значение"};
+    });
+    return this; 
+}
+Rule.prototype.minLength = function(minNumber){
+    this.findError.push( function(value){
+        let isValid = !(value.length < minNumber);
+        return {isValid: isValid, errorMessage: "Слишком маленькое значение"};
+    })
+    return this;
+}
+Rule.prototype.max = function(n){
+    this.findError.push(function(value){
+        let isValid = !(value > n);
+        return {isValid: isValid, errorMessage:"Значение больше, чем ожидалось"};
+    })
+    return this;
+}
+Rule.prototype.min = function(n){
+    this.findError.push(function(value){
+        let isValid = !(value < n);
+        return {isValid: isValid, errorMessage: "Значение слишком маленькое"};
+    });
+    return this;
+}
+Rule.prototype.isEmail = function(){
+    this.findError.push(function(value){
+        var r = value.match(/^[0-9a-z-\.]+\@[0-9a-z-]{2,}\.[a-z]{2,}$/i);
+        return {isValid: !(r == null), errorMessage:"Неправильно введен емейл"}
+    });
+    return this; 
+}
+Rule.prototype.isInt = function(){
+    this.findError.push(function(value){
+        let valueInInt = +value;
+        let isValid = !((valueInInt^0) != valueInInt); /*|| typeof(value) == 'string'*/
+        return {isValid: isValid, errorMessage: "Это не целое число, наверное оно должно быть целое"}
+    });
+    return this;    
+}
+Rule.prototype.validateRule = function(value){
+    var p = this.findError[0](value);
+    console.log(p);
+    return p;
+}
+module.exports = Rule;
+//запаблить в npm валидатор publish
+//npm.ignore папка spec
+//index.js из которого будет импортироваться всё
+//переписать на регулярные email
