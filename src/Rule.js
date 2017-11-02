@@ -3,7 +3,6 @@ function Rule(){
 }
 Rule.prototype.isRequired = function(){
     this.findError.push(function(value){
-    //переписать наличие value
     let isValid;
     (value == undefined || typeof(value) == null) ? isValid = false : isValid = true
     return {isValid: isValid, errorMessage: "Ничего не введено"};
@@ -54,8 +53,7 @@ Rule.prototype.isInt = function(){
     return this;    
 }
 Rule.prototype.validateRule = function(value){
-    var p = this.findError[0](value);
-    console.log(p);
+    var p = this.findError[0](value);   
     return p;
 }
 module.exports = Rule;
