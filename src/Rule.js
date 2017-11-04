@@ -3,8 +3,7 @@ function Rule(){
 }
 Rule.prototype.isRequired = function(){
     this.findError.push(function(value){
-    let isValid;
-    (value == undefined || typeof(value) == null) ? isValid = false : isValid = true
+    let isValid = !(value == undefined || typeof(value) == null); 
     return {isValid: isValid, errorMessage: "Ничего не введено"};
     });
     return this;    
@@ -53,7 +52,13 @@ Rule.prototype.isInt = function(){
     return this;    
 }
 Rule.prototype.validateRule = function(value){
-    var p = this.findError[0](value);   
-    return p;
+    let validateResult = this.findError.map(x => x(value));
+
+    let result = {
+        isValid: validateResult.every(x => x.isValid),
+        errorMessage: validateResult.filter(x => !x.isValid).map(x => x.errorMessage)
+    };
+
+    return result;
 }
 module.exports = Rule;

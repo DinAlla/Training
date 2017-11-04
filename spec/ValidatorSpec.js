@@ -5,11 +5,11 @@ var validator;
 describe("Testing class Validator",function(){
 	describe("Testing Validate", function(){
 		it("Data is good",function(done){
-			var data = {name:"Name"},
+			let data = {name:"Name"},
 				rules = {
 					name: {
 						validateRule: function(value) {
-							return {isValid:true, errorMessage:"blabla"} 
+							return {isValid:true, errorMessage:""} 
 						} 
 					} 
 				};
@@ -20,7 +20,7 @@ describe("Testing class Validator",function(){
 			});			
 		});
 		it("Data is not good",function(done){
-			var data = {name:"Name"},
+			let data = {name:"Name"},
 				rules = {
 					name: {
 						validateRule: function(value) {
@@ -30,7 +30,7 @@ describe("Testing class Validator",function(){
 				};
 			validator = new Validator().Validate(data, rules)
 			.catch(function(result){
-				expect(result[0]).toBe("blabla");
+				expect(result.name).toBe("blabla");
 				done();
 			});	
 		})
