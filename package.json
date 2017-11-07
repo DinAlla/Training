@@ -1,0 +1,22 @@
+{
+  "name": "validator-by-angelina",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DinAlla/Training.git"
+  },
+  "author": "Magidova A.S.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DinAlla/Training/issues"
+  },
+  "homepage": "https://github.com/DinAlla/Training#readme",
+  "description": "Validator",
+  "devDependencies": {
+    "jasmine": "^2.8.0"
+  }
+}

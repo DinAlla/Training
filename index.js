@@ -1,1 +1,2 @@
-document.write("Hello");
+var Rule = require('./src/Rule');
+var Validator = require('./src/Validator');
